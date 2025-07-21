@@ -2,24 +2,46 @@ import express from 'express';
 import {
     addUser,
     deleteUser,
-    getAllUsers, getUserById, 
+    getAllUsers,
+    getUserById, 
     updatePartUser,
     updateWholeUser} from './user.controller.js';
+import { validatePartUser, validateWholeUser } from '../validations/validate-user.js';
+import NotAuthorizedError from '../shared/errors/not-authorized-error.js';
+import wrapper from '../shared/wrapper.js';
 
 const userRouter = express.Router();
 
+const extractUserDataMW = (request,response,next) =>{
+    try{
+        const user = request.user;
+        validateWholeUser(user);
 
-userRouter.post('/users',addUser);
+        request.user = user;
+        next();
+    }catch(e){
+        next(e);
+    }
+}
 
-userRouter.get('/users',getAllUsers);
+userRouter.use((request,response,next)=>{// middleware
+    if(request.authUser.role !== 'admin')
+         return next(
+            new NotAuthorizedError('you don`t have a permission to access to this resource')
+    );
+    next();
+});
+userRouter.post('/users',wrapper(addUser));
 
-userRouter.get('/users/:id',getUserById);
+userRouter.get('/users',wrapper(getAllUsers));
 
-userRouter.put('/users/:id',updateWholeUser);
+userRouter.get('/users/:id',wrapper(getUserById));
 
-userRouter.patch('/users/:id',updatePartUser)
+userRouter.put('/users/:id',extractUserDataMW,wrapper(updateWholeUser));
 
-userRouter.delete('/users/:id',deleteUser);
+userRouter.patch('/users/:id',validatePartUser,wrapper(updatePartUser))
+
+userRouter.delete('/users/:id',wrapper(deleteUser));
 
 
 export default userRouter;
