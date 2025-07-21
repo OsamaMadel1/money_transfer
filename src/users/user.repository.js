@@ -1,4 +1,5 @@
-// import NotFoundError from "../shared/errors/not-found-error.js";
+
+import NotFoundError from "../shared/errors/not-found-error.js";
 import User from "./user.model.js";
 export default class MongoUsersRepository{
 
