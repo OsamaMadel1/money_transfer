@@ -18,6 +18,11 @@ export default class MongoUsersRepository{
         return user;
     }
 
+    async getBalanceById(id) {
+        const user = await User.findById(id); 
+        return user;
+    }
+
     async updateWhole(id,updatedData){
         let user =await User.findByIdAndUpdate(id,updatedData);
         if (!user) throw new NotFoundError('User not found!');

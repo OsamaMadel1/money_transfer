@@ -1,5 +1,6 @@
 
 import bcrypt from 'bcrypt';
+import NotFoundError from '../shared/errors/not-found-error.js';
 
 export async function addUser(request,response){
     
@@ -33,8 +34,19 @@ export async function getUserById(request,response){
         password: user.password,
         balance: user.balance  
     });
-
 }
+
+export async function getCurrentBalance(request, response, next) {
+    const id = request.params.id;
+
+    const user =await request.usersRepository.getById(id);
+
+    if(!user) return response.sendStatus(404);
+    response.json({
+        balance: user.balance  
+    });
+}
+
 
 export async function updateWholeUser(request,response){
         const id = request.params.id;

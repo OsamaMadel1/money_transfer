@@ -3,6 +3,7 @@ import {
     addUser,
     deleteUser,
     getAllUsers,
+    getCurrentBalance,
     getUserById, 
     updatePartUser,
     updateWholeUser} from './user.controller.js';
@@ -33,6 +34,17 @@ function validatePartUserMW(request,response,next) {
     }
 }
 
+const authSameIdentityOrAdminMW = (request,response,next)=>{
+    if(
+        request.user._id.toString() !== request.params.userId && 
+        request.user.role !== 'admin' 
+    )
+    return next(new NotAuthorizedError('you don`t have a permission to access to this resource'));
+
+    next();
+}
+
+userRouter.get('/users/balance/:id',authSameIdentityOrAdminMW,wrapper(getCurrentBalance));
 
 userRouter.use((request,response,next)=>{// middleware
     if(request.user.role !== 'admin')
