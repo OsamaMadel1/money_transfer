@@ -8,7 +8,7 @@ export async function registerUser(request, response, next){
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return next('Email already registered');
+      return next(new Error('Email already registered'));
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -17,7 +17,7 @@ export async function registerUser(request, response, next){
       fullName,
       email,
       password: hashedPassword,
-      role,
+      role
     });
 
     await user.save();
@@ -36,7 +36,8 @@ export async function loginUser(request, response, next) {
     // إيجاد المستخدم
     const user = await User.findOne({ email });
     if (!user) {
-      return next('Invalid email or password');
+      return next(new Error('Invalid email or password'));
+
     }
 
     // التحقق من كلمة المرور
@@ -49,7 +50,7 @@ export async function loginUser(request, response, next) {
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '1000h' }
     );
 
     response.json({
