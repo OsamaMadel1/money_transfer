@@ -1,6 +1,6 @@
-// import employees from "./memory.employees.repository.js";
-// import { validateWholeEmployee ,validatePartEmployee } from "../validation/validate_employee.js";
+
 import bcrypt from 'bcrypt';
+
 export async function addUser(request,response){
     
     request.user.password =await bcrypt.hash(request.user.password,10)
@@ -48,8 +48,6 @@ export async function updatePartUser(request,response){
     const id = request.params.id;
 
     const updates = request.body;
-    // validatePartUser(updates);
-
     await request.usersRepository.updatePart(id,updates);
 
     response.sendStatus(200);

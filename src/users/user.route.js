@@ -12,7 +12,7 @@ import wrapper from '../shared/wrapper.js';
 
 const userRouter = express.Router();
 
-const extractUserDataMW = (request,response,next) =>{
+const validateWholeUserMW = (request,response,next) =>{
     try{
         const user = request.user;
         validateWholeUser(user);
@@ -24,8 +24,18 @@ const extractUserDataMW = (request,response,next) =>{
     }
 }
 
+function validatePartUserMW(request,response,next) {
+    try {
+        validatePartUser(request.body);
+        next();
+    } catch (error) {
+        next(error); 
+    }
+}
+
+
 userRouter.use((request,response,next)=>{// middleware
-    if(request.authUser.role !== 'admin')
+    if(request.user.role !== 'admin')
          return next(
             new NotAuthorizedError('you don`t have a permission to access to this resource')
     );
@@ -37,9 +47,9 @@ userRouter.get('/users',wrapper(getAllUsers));
 
 userRouter.get('/users/:id',wrapper(getUserById));
 
-userRouter.put('/users/:id',extractUserDataMW,wrapper(updateWholeUser));
+userRouter.put('/users/:id',validateWholeUserMW,wrapper(updateWholeUser));
 
-userRouter.patch('/users/:id',validatePartUser,wrapper(updatePartUser))
+userRouter.patch('/users/:id',validatePartUserMW,wrapper(updatePartUser))
 
 userRouter.delete('/users/:id',wrapper(deleteUser));
 

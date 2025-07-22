@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../users/user.model.js';
+import NotAuthorizedError from '../shared/errors/not-authorized-error.js';
 
 export default async function validateToken(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -18,7 +19,7 @@ export default async function validateToken(req, res, next) {
       return next(new NotAuthorizedError('Invalid or inactive user'));
     }
 
-    req.authUser = user; // نمرر المستخدم للراوترات التالية
+    req.user = user; // نمرر المستخدم للراوترات التالية
     next();
   } catch (error) {
     return next(new NotAuthorizedError('Invalid or expired token'));

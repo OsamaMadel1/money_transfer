@@ -20,7 +20,8 @@ export default class MongoUsersRepository{
 
     async updateWhole(id,updatedData){
         let user =await User.findByIdAndUpdate(id,updatedData);
-        if (!user) next(NotFoundError('user not found!'));
+        if (!user) throw new NotFoundError('User not found!');
+
     }
 
     async updatePart(id,updates){
@@ -29,6 +30,7 @@ export default class MongoUsersRepository{
 
     async delete(id){
         let user =await User.findByIdAndDelete(id);
-        if(!user) next(NotFoundError('user not found!'));
+        if (!user) throw new NotFoundError('User not found!');
+
     }
 }

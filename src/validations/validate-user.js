@@ -1,7 +1,7 @@
 import ParamterIsMissingError from "../shared/errors/paramter-is-missing-error.js";
 
 export function validateWholeUser(user) {
-    if (!user.fuallName) {
+    if (!user.fullName) {
         throw new ParamterIsMissingError('The "fullName" parameter is missing.');
     }
     if (!user.email) {
@@ -13,7 +13,7 @@ export function validateWholeUser(user) {
 }
 
 export function validatePartUser(user) {
-    if (!user.fuallName && !user.email && !user.password) {
+    if (!user.fullName && !user.email && !user.password) {
         throw new ParamterIsMissingError("You must send at least 'fullName' or 'email' or 'password'.");
     }
 

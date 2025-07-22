@@ -8,7 +8,7 @@ async function adminSeed(params) {
     try {
         await mongoose.connect('mongodb://127.0.0.1:27017/money_transfer_db');
     } catch (error) {
-        console.error('❌ Database connection failed:', error.message);
+        console.error('Database connection failed:', error.message);
         process.exit(1);
     }
 
@@ -20,7 +20,8 @@ async function adminSeed(params) {
         fullName: 'admin',
         email: 'admin@gmail.com',
         password: passwordHashed,
-        role: 'admin'
+        role: 'admin',
+        balance: 0
     });
 
     console.log('='.repeat(50));
