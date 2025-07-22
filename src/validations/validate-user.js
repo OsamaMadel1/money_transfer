@@ -16,5 +16,4 @@ export function validatePartUser(user) {
     if (!user.fullName && !user.email && !user.password) {
         throw new ParamterIsMissingError("You must send at least 'fullName' or 'email' or 'password'.");
     }
-
 }

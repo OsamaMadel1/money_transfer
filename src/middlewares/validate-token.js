@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../users/user.model.js';
 import NotAuthorizedError from '../shared/errors/not-authorized-error.js';
 
-export default async function validateToken(req, res, next) {
+export default async function validateTokenMW(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
