@@ -15,7 +15,6 @@ app.use(express.json());//middleware : data in body
 app.use(morgan('dev'));//لتسجيل تفاصيل كل طلب HTTP يصل إلى السيرفر
 app.use(settingsRepositoryMiddlewares);
 
-
 app.use('/',authRouter);
 
 app.use(validateToken);//middleware

@@ -38,7 +38,7 @@ export async function getUserById(request,response){
 
 export async function getCurrentBalance(request, response, next) {
     const id = request.params.id;
-
+    
     const user =await request.usersRepository.getById(id);
 
     if(!user) return response.sendStatus(404);

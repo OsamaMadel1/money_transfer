@@ -4,8 +4,6 @@ import User from '../users/user.model.js';
 import MongoTransferRepository from './transfer.repository.js';
 
 
-const repository = new MongoTransferRepository();
-
 export async function makeTransfer(request, response, next) {
 
     const sender = request.user;

@@ -37,7 +37,6 @@ export async function loginUser(request, response, next) {
     const user = await User.findOne({ email });
     if (!user) {
       return next(new Error('Invalid email or password'));
-
     }
 
     // التحقق من كلمة المرور

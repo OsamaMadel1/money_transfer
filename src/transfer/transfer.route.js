@@ -27,3 +27,4 @@ transferRouter.use((request,response,next)=>{// middleware
 transferRouter.get('/transfer/all', validateTokenMW, wrapper(getAllTransfers));
 
 export default transferRouter;
+

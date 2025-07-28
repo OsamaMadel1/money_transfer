@@ -5,7 +5,7 @@ import MongoUsersRepository from '../users/user.repository.js';
 
 async function adminSeed(params) {
 
-    try {
+    try{
         await mongoose.connect('mongodb://127.0.0.1:27017/money_transfer_db');
     } catch (error) {
         console.error('Database connection failed:', error.message);
